@@ -30,10 +30,13 @@ public class Main {
             System.out.print("Podaj imię studenta: ");
             String name = scanner.nextLine();
 
+            System.out.print("Podaj nazwisko studenta: ");
+            String surname = scanner.nextLine();
+
             System.out.print("Podaj wiek studenta: ");
             int age = Integer.parseInt(scanner.nextLine());
 
-            Student newStudent = new Student(name, age);
+            Student newStudent = new Student(name, surname, age);
             s.addStudent(newStudent);
 
             System.out.println("Dodano studenta:");
@@ -70,6 +73,7 @@ public class Main {
     }
   }
 }
+
 
 
 
