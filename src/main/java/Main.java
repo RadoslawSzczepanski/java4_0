@@ -10,30 +10,45 @@ Kod bazowy programu Commit4_0:
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
-      Scanner scanner = new Scanner(System.in);
+      Scanner scanner = new Scanner(System.in);  
 
-      while (true) {
-        System.out.println("Podaj imię studenta (lub wpisz 'stop', aby zakończyć):");
-        String name = scanner.nextLine();
 
-        if (name.equalsIgnoreCase("stop")) {
-          System.out.println("Zakończono wprowadzanie studentów.");
-          break;
+      System.out.println("Podaj imię studenta: ");
+      String name = scanner.nextLine();  
+
+      System.out.println("Podaj wiek studenta: ");
+      int age = scanner.nextInt();  
+
+
+      Student newStudent = new Student(name, age);
+      s.addStudent(newStudent);
+
+
+      System.out.println("Dodany student:");
+      System.out.println(newStudent.ToString());
+
+
+      scanner.nextLine();  
+      System.out.println("Czy chcesz zobaczyć wszystkich studentów? (tak/nie): ");
+      String response = scanner.nextLine();
+
+
+      if (response.equalsIgnoreCase("tak")) {
+        System.out.println("Wszyscy studenci:");
+        var students = s.getStudents();
+        for (Student current : students) {
+          System.out.println(current.ToString());
         }
-
-        System.out.println("Podaj wiek studenta:");
-        int age = Integer.parseInt(scanner.nextLine());
-
-        s.addStudent(new Student(name, age));
+      } else {
+        System.out.println("Program zakończony.");
       }
 
-      scanner.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      e.printStackTrace();  
     }
   }
 }
