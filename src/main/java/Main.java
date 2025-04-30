@@ -36,7 +36,32 @@ public class Main {
             System.out.print("Podaj wiek studenta: ");
             int age = Integer.parseInt(scanner.nextLine());
 
-            Student newStudent = new Student(name, surname, age);
+            System.out.println("Podaj datę urodzenia:");
+
+            System.out.print("Rok (1–3000): ");
+            int year = Integer.parseInt(scanner.nextLine());
+            if (year < 1 || year > 3000) {
+              System.out.println("Nieprawidłowy rok. Przerwano dodawanie.");
+              break;
+            }
+
+            System.out.print("Miesiąc (1–12): ");
+            int month = Integer.parseInt(scanner.nextLine());
+            if (month < 1 || month > 12) {
+              System.out.println("Nieprawidłowy miesiąc. Przerwano dodawanie.");
+              break;
+            }
+
+            System.out.print("Dzień (1–30): ");
+            int day = Integer.parseInt(scanner.nextLine());
+            if (day < 1 || day > 30) {
+              System.out.println("Nieprawidłowy dzień. Przerwano dodawanie.");
+              break;
+            }
+
+            String birthDate = String.format("%04d-%02d-%02d", day, month, year);
+
+            Student newStudent = new Student(name, surname, age, birthDate);
             s.addStudent(newStudent);
 
             System.out.println("Dodano studenta:");
@@ -48,7 +73,7 @@ public class Main {
             if (students.isEmpty()) {
               System.out.println("Brak studentów.");
             } else {
-              System.out.println("Lista studentów:");
+              System.out.println("\nLista studentów:");
               int i = 1;
               for (Student student : students) {
                 System.out.println(i + ". " + student.ToString());
@@ -63,16 +88,19 @@ public class Main {
             break;
 
           default:
-            System.out.println("Nieprawidłowa opcja, spróbuj ponownie.");
+            System.out.println("Nieprawidłowa opcja. Spróbuj ponownie.");
         }
       }
 
       scanner.close();
     } catch (IOException e) {
       e.printStackTrace();
+    } catch (NumberFormatException e) {
+      System.out.println("Błąd: nieprawidłowy format liczbowy.");
     }
   }
 }
+
 
 
 
