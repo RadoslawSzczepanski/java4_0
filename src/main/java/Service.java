@@ -19,8 +19,7 @@ public class Service {
      .append(Integer.toString(student.GetAge()))
      .append(" ")
      .append(student.GetBirthDate());
-
-    b.newLine();
+    b.newLine();  
 
     b.close();
   }
@@ -30,10 +29,7 @@ public class Service {
     var f = new FileReader("db.txt");
     var reader = new BufferedReader(f);
     String line = "";
-    while (true) {
-      line = reader.readLine();
-      if(line == null)
-        break;
+    while ((line = reader.readLine()) != null) {
       ret.add(Student.Parse(line));
     }
     reader.close();
@@ -45,10 +41,47 @@ public class Service {
 
     for (Student student : students) {
       if (student.GetName().equalsIgnoreCase(name)) {
-        return student; 
+        return student;
       }
     }
 
     return null;
   }
+
+  public void removeStudent(String name, String surname) throws IOException {
+    
+    Collection<Student> students = getStudents();
+    Collection<Student> updatedStudents = new ArrayList<>();
+
+    boolean found = false;
+
+    for (Student student : students) {
+      if (student.GetName().equalsIgnoreCase(name) &&
+          student.GetSurname().equalsIgnoreCase(surname)) {
+        found = true; 
+      } else {
+        updatedStudents.add(student); 
+      }
+    }
+
+    if (found) {
+      var writer = new BufferedWriter(new FileWriter("db.txt"));
+      for (Student student : updatedStudents) {
+        writer.append(student.GetName())
+              .append(" ")
+              .append(student.GetSurname())
+              .append(" ")
+              .append(Integer.toString(student.GetAge()))
+              .append(" ")
+              .append(student.GetBirthDate());
+        writer.newLine(); 
+      }
+      writer.close();
+      System.out.println("Student został usunięty.");
+    } else {
+      System.out.println("Nie znaleziono studenta o podanym imieniu i nazwisku.");
+    }
+  }
 }
+
+

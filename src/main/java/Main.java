@@ -13,12 +13,12 @@ public class Main {
         System.out.println("2 - Wyświetl wszystkich studentów");
         System.out.println("3 - Szukaj studenta po imieniu");
         System.out.println("4 - Zakończ program");
+        System.out.println("5 - Usuń studenta po imieniu i nazwisku");
 
         String input = scanner.nextLine();
 
         switch (input) {
           case "1":
-            // Dodawanie studenta
             System.out.print("Podaj imię studenta: ");
             String name = scanner.nextLine();
 
@@ -39,7 +39,6 @@ public class Main {
             break;
 
           case "2":
-            // Wyświetlanie wszystkich studentów
             var students = s.getStudents();
             System.out.println("Lista studentów:");
             for (Student student : students) {
@@ -48,7 +47,6 @@ public class Main {
             break;
 
           case "3":
-            // Szukanie studenta po imieniu
             System.out.print("Podaj imię studenta do wyszukania: ");
             String searchName = scanner.nextLine();
 
@@ -62,10 +60,19 @@ public class Main {
             break;
 
           case "4":
-            // Zakończenie programu
             System.out.println("Program zakończony.");
             scanner.close();
             return;
+
+          case "5":
+            System.out.print("Podaj imię studenta do usunięcia: ");
+            String deleteName = scanner.nextLine();
+
+            System.out.print("Podaj nazwisko studenta do usunięcia: ");
+            String deleteSurname = scanner.nextLine();
+
+            s.removeStudent(deleteName, deleteSurname);
+            break;
 
           default:
             System.out.println("Nieznana opcja. Spróbuj ponownie.");
@@ -76,6 +83,7 @@ public class Main {
     }
   }
 }
+
 
 
 
