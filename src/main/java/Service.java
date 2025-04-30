@@ -5,13 +5,23 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 public class Service {
 
   public void addStudent(Student student) throws IOException {
     var f = new FileWriter("db.txt", true);
     var b = new BufferedWriter(f);
-    b.append(student.ToString());
+
+    b.append(student.GetName())
+     .append(" ")
+     .append(student.GetSurname())
+     .append(" ")
+     .append(Integer.toString(student.GetAge()))
+     .append(" ")
+     .append(student.GetBirthDate());
+
     b.newLine();
+
     b.close();
   }
 
@@ -30,7 +40,15 @@ public class Service {
     return ret;
   }
 
-  public Student findStudentByName(String name) {
+  public Student findStudentByName(String name) throws IOException {
+    Collection<Student> students = getStudents();
+
+    for (Student student : students) {
+      if (student.GetName().equalsIgnoreCase(name)) {
+        return student; 
+      }
+    }
+
     return null;
   }
 }

@@ -1,12 +1,3 @@
-/*
-Kod bazowy programu Commit4_0: 
-• Program dodaje do prostej bazy danych (pliku db.txt) dane odnośnie Studentów.
-• Studenci dodawani są w klasie Main.
-• Wszyscy studenci są wypisywani na końcu klasy Main.
-• Klasa Service obsługuje odczyt i zapis do pliku bazy danych.
-• Klasa Student reprezentuje pojedynczego studenta (Imię, Wiek).
-*/
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -15,18 +6,19 @@ public class Main {
     try {
       Service s = new Service();
       Scanner scanner = new Scanner(System.in);
-      boolean running = true;
 
-      while (running) {
+      while (true) {
         System.out.println("\nWybierz opcję:");
-        System.out.println("1 – Dodaj studenta");
-        System.out.println("2 – Wyświetl listę studentów");
-        System.out.println("3 – Zakończ program");
-        System.out.print("Twój wybór: ");
-        String choice = scanner.nextLine().trim();
+        System.out.println("1 - Dodaj studenta");
+        System.out.println("2 - Wyświetl wszystkich studentów");
+        System.out.println("3 - Szukaj studenta po imieniu");
+        System.out.println("4 - Zakończ program");
 
-        switch (choice) {
+        String input = scanner.nextLine();
+
+        switch (input) {
           case "1":
+            // Dodawanie studenta
             System.out.print("Podaj imię studenta: ");
             String name = scanner.nextLine();
 
@@ -36,70 +28,56 @@ public class Main {
             System.out.print("Podaj wiek studenta: ");
             int age = Integer.parseInt(scanner.nextLine());
 
-            System.out.println("Podaj datę urodzenia:");
-
-            System.out.print("Rok (1–3000): ");
-            int year = Integer.parseInt(scanner.nextLine());
-            if (year < 1 || year > 3000) {
-              System.out.println("Nieprawidłowy rok. Przerwano dodawanie.");
-              break;
-            }
-
-            System.out.print("Miesiąc (1–12): ");
-            int month = Integer.parseInt(scanner.nextLine());
-            if (month < 1 || month > 12) {
-              System.out.println("Nieprawidłowy miesiąc. Przerwano dodawanie.");
-              break;
-            }
-
-            System.out.print("Dzień (1–30): ");
-            int day = Integer.parseInt(scanner.nextLine());
-            if (day < 1 || day > 30) {
-              System.out.println("Nieprawidłowy dzień. Przerwano dodawanie.");
-              break;
-            }
-
-            String birthDate = String.format("%04d-%02d-%02d", day, month, year);
+            System.out.print("Podaj datę urodzenia studenta (YYYY-MM-DD): ");
+            String birthDate = scanner.nextLine();
 
             Student newStudent = new Student(name, surname, age, birthDate);
             s.addStudent(newStudent);
 
-            System.out.println("Dodano studenta:");
+            System.out.println("Dodany student:");
             System.out.println(newStudent.ToString());
             break;
 
           case "2":
+            // Wyświetlanie wszystkich studentów
             var students = s.getStudents();
-            if (students.isEmpty()) {
-              System.out.println("Brak studentów.");
-            } else {
-              System.out.println("\nLista studentów:");
-              int i = 1;
-              for (Student student : students) {
-                System.out.println(i + ". " + student.ToString());
-                i++;
-              }
+            System.out.println("Lista studentów:");
+            for (Student student : students) {
+              System.out.println(student.ToString());
             }
             break;
 
           case "3":
-            System.out.println("Zakończono program.");
-            running = false;
+            // Szukanie studenta po imieniu
+            System.out.print("Podaj imię studenta do wyszukania: ");
+            String searchName = scanner.nextLine();
+
+            Student foundStudent = s.findStudentByName(searchName);
+            if (foundStudent != null) {
+              System.out.println("Znaleziony student:");
+              System.out.println(foundStudent.ToString());
+            } else {
+              System.out.println("Nie znaleziono studenta o imieniu: " + searchName);
+            }
             break;
 
+          case "4":
+            // Zakończenie programu
+            System.out.println("Program zakończony.");
+            scanner.close();
+            return;
+
           default:
-            System.out.println("Nieprawidłowa opcja. Spróbuj ponownie.");
+            System.out.println("Nieznana opcja. Spróbuj ponownie.");
         }
       }
-
-      scanner.close();
     } catch (IOException e) {
       e.printStackTrace();
-    } catch (NumberFormatException e) {
-      System.out.println("Błąd: nieprawidłowy format liczbowy.");
     }
   }
 }
+
+
 
 
 
